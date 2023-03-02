@@ -1,13 +1,39 @@
 .start-screen{
-    background-color: #404040;
+    background-image: url(../../assets/img/board.jpg);
+    background-size: contain;
+    // background-color: #404040;
     width:100vw;
     height:100vh;
     max-width: 100%; // So gibt es keine Scrollbalken beim Runterscrollen!
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10;
 
     img{
         height:100vh;
+    }
+}
+
+.start-label-box{
+    position: absolute;
+    // left:0;
+    // right:0;
+    display: flex;
+    justify-content: center;
+    height:100vh;
+    z-index: 2;
+    
+
+    img{
+        position: relative;
+        width: auto;
+        height: 40vh;
+        top: 40%;
+
+        &:hover{
+            cursor: pointer;
+            filter:brightness(1.2);
+        }
     }
 }
