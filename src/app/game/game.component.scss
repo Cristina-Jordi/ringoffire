@@ -8,17 +8,17 @@
     justify-content: center;
     align-items: center;
 
-     .card-stack {
+    .card-stack {
         position: relative;
         display: flex;
-            justify-content: center;
-            align-items: center;
-         
-             img {
-                position: absolute;
-                 height: 250px;
-             }
-         }
+        justify-content: center;
+        align-items: center;
+
+        img {
+            position: absolute;
+            height: 250px;
+        }
+    }
 }
 
 // .card-stack {
@@ -31,3 +31,40 @@
 //     }
 // }
 
+.top-card {
+    cursor: pointer;
+    transition: all 125ms ease-in-out;
+
+    &:hover {
+        transform: scale(1.1) translateY(-10px);
+    }
+}
+
+.played-card{
+    right:25px;
+    transform: scale(1) translateX(220px) translateY(-240px) rotate(-10deg);
+}
+
+.pick-card {
+    animation: pick-card-animation 1s ease-in-out;
+    transform: scale(1) translateX(220px) translateY(-240px) rotate(-10deg);
+}
+
+@keyframes pick-card-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.7);
+    }
+
+    60% {
+        transform: scale(1.7);
+    }
+
+    100% {
+        transform: scale(1) translateX(220px) translateY(-240px) rotate(-10deg);
+    }
+
+}
