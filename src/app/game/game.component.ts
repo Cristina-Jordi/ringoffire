@@ -10,7 +10,9 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 })
 export class GameComponent implements OnInit {
   pickCardAnimation = false;  // Variable wird mit false initialisiertund bindet eine weitere css-Klasse ein.
-  currentCard: string | undefined = '';
+  currentCard: string | undefined;
+
+  // currentCard: string | undefined = '';
   game: Game = new Game();
 
   constructor(public dialog: MatDialog) { }
@@ -44,8 +46,8 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe(name => {
+      this.game.players.push(name);
     });
   }
 }

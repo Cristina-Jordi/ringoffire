@@ -1,5 +1,5 @@
-.player{
-    width:300px;
+.player {
+    width: 300px;
     display: flex;
     align-items: center;
     background-color: burlywood;
@@ -7,15 +7,21 @@
     border-bottom-left-radius: 50px;
 
 
-    span{
-        font-size: 32px;
+    span {
+        font-size: 30px;
         margin-left: 16px;
     }
-    
-    img{
-        width:100px;
-        height:100px;
+
+    img {
+        width: 70px;
+        height: 70px;
         object-fit: cover;
         border-radius: 100%;
     }
+}
+
+.player-active {
+    color:black;
+    background-color: orange !important;
+
 }
