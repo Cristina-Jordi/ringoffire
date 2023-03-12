@@ -1,6 +1,6 @@
 <mat-card>
-    <mat-card-title style="margin-left: 14px; margin-top: 10px;">{{ title }}</mat-card-title>
+    <mat-card-title style="margin-left: 14px; margin-top: 10px;">{{ card ? title: 'Pick a Card' }}</mat-card-title>
     <mat-card-content>
-        <p>{{ description }}</p>
+        <p>{{ card ? description: 'Click on the Card Stack to pick a Card!' }}</p>
     </mat-card-content>
 </mat-card>
