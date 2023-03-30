@@ -27,7 +27,7 @@ import { environment } from '../environments/environment';
   declarations: [
     AppComponent,
     StartScreenComponent,
-    GameComponent,
+    // GameComponent,
     PlayerComponent,
     DialogAddPlayerComponent,
     GameRulesComponent
