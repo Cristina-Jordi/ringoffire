@@ -17,7 +17,7 @@ export class GameComponent implements OnInit {
 
   constructor(private firestore: AngularFirestore, public dialog: MatDialog) { this.currentCard = ""; }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.newGame();
     this.firestore.collection('games').valueChanges().subscribe((game) => {
       console.log('Game update', game);
