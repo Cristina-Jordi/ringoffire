@@ -24,12 +24,21 @@ export class Game {
         this.shuffleCards();
     }
 
-
     private shuffleCards() {
         for (let i = this.stack.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [this.stack[i], this.stack[j]] = [this.stack[j], this.stack[i]];
         }
-
     }
+
+    public toJson() {
+        return {
+            players: this.players,
+            stack: this.stack,
+            playedCards: this.playedCards,
+            currentPlayer: this.currentPlayer
+
+        };
+    }
+
 }
