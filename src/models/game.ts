@@ -4,17 +4,7 @@ export class Game {
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
 
-    //Variante Junus:
-    // constructor() {  // Hier kommen Funktionen hin, welche am Anfang immer aufgerufen werden wo gewisse Logiken aufgerufen werden können
-    //     for(let i=1; i < 14; i++){
-    //         this.stack.push('hearts_' + i);
-    //         this.stack.push('ace_' + i);
-    //         this.stack.push('dimaonds_' + i);
-    //         this.stack.push('clubs_' + i);
-    //     }
-    //  }
-
-    constructor() {
+     constructor() {
         const suits = ['hearts', 'ace', 'diamonds', 'clubs'];
         for (let i = 1; i <= 13; i++) {
             suits.forEach(suit => {

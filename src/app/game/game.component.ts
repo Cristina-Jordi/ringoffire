@@ -14,20 +14,24 @@ export class GameComponent implements OnInit {
   pickCardAnimation = false;  // Variable wird mit false initialisiertund bindet eine weitere css-Klasse ein.
   currentCard: string | undefined;
   game!: Game;
+  gameId: string | undefined;  // 07.04.2023
 
   constructor(private firestore: AngularFirestore, public dialog: MatDialog) { this.currentCard = ""; }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.newGame();
-    this.firestore.collection('games').valueChanges().subscribe((game) => {
-      console.log('Game update', game);
-    });
+    // this.firestore.collection('games').valueChanges().subscribe((game) => {  // 07.04.2023
+    //   console.log('Game update', game);
+    // });
   }
 
   newGame() {
     this.game = new Game();
-    this.firestore.collection('games').add(this.game.toJson());
-    console.log(this.game.toJson);
+    this.firestore.collection('games').add(this.game.toJson()).then(ref => {  // 07.04.2023
+      this.gameId = ref.id;
+    });
+    // this.firestore.collection('games').add(this.game.toJson());  // 07.04.2023
+    // console.log(this.game.toJson);
   }
 
   takeCard() {
@@ -45,6 +49,15 @@ export class GameComponent implements OnInit {
           this.game.playedCards.push(this.currentCard);
         }
         this.pickCardAnimation = false;
+        // 07.04.2023 - Beginn
+        if (this.gameId !== undefined) {
+          this.firestore.collection('games').doc(this.gameId).update({
+            players: this.game.players,
+            stack: this.game.stack,
+            playedCards: this.game.playedCards,
+            currentPlayer: this.game.currentPlayer
+          });
+        } // 07.04.2023 - Ende
       }, 1000);
     }
   }
@@ -55,6 +68,12 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe(name => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        // 07.04.2023 - Beginn
+        if (this.gameId !== undefined) {
+          this.firestore.collection('games').doc(this.gameId).update({
+            players: this.game.players
+          });
+        }  // 07.04.2023 - Ende
       }
     });
   }
