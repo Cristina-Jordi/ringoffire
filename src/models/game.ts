@@ -3,8 +3,9 @@ export class Game {
     public stack: string[] = [];   // ungespielte Karten
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
+    public game: any;  // Deklaration der Eigenschaft game
 
-     constructor() {
+    constructor() {
         const suits = ['hearts', 'ace', 'diamonds', 'clubs'];
         for (let i = 1; i <= 13; i++) {
             suits.forEach(suit => {
@@ -12,6 +13,7 @@ export class Game {
             });
         }
         this.shuffleCards();
+        this.game = {}; // Initialisierung der Eigenschaft game
     }
 
     private shuffleCards() {
@@ -29,6 +31,33 @@ export class Game {
             currentPlayer: this.currentPlayer
 
         };
+    }
+
+    public addPlayer(playerName: string) {
+        this.players.push(playerName);
+        if (this.currentPlayer === null || this.currentPlayer === undefined) {
+            this.currentPlayer = 0; // Setze currentPlayer auf den ersten Spieler, falls es noch keinen gibt
+        } else {
+            this.currentPlayer = (this.currentPlayer + 1) % this.players.length; // Setze currentPlayer auf den nächsten Spieler
+        }
+        console.log('Current Player is:', this.players[this.currentPlayer]);
+        this.saveGame();
+    }
+
+    drawCard() {
+        const card = this.game.stack.pop();
+        this.game.playedCards.push(card);
+        this.game.nextPlayer(); // aktualisiere den currentPlayer
+        this.saveGame(); // speichere das aktualisierte Spiel in Firebase
+    }
+
+    public nextPlayer() {
+        this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
+        this.saveGame(); // speichere das aktualisierte Spiel in Firebase
+    }
+
+    private saveGame() {
+        // Hier Code zum Speichern des Spiels in Firebase
     }
 
 }
