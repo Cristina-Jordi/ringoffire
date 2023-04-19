@@ -3,6 +3,7 @@ import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -16,15 +17,27 @@ export class GameComponent implements OnInit {
   game!: Game;
   gameId: string | undefined;
 
-  constructor(private firestore: AngularFirestore, public dialog: MatDialog) { this.currentCard = ""; }
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { this.currentCard = ""; }
 
   ngOnInit(): void {
-    this.newGame();
+    this.newGame(); // Erstellt ein neues Spiel
+    this.route.params.subscribe((params) => {
+      console.log('Die ID ist:', params['id']);  // Loggt die ID des Docs aus
+
+      this.firestore.collection('games').doc<Game>(params['id']).valueChanges().subscribe((game: any) => {
+        console.log('Game update', game);
+        this.game = game ?? {} as Game;
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCards = game.playedCards;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
+      });
+    });
   }
 
   newGame() {
     this.game = new Game();
-    this.firestore.collection('games').add(this.game.toJson()).then(ref => { 
+    this.firestore.collection('games').add(this.game.toJson()).then(ref => {
       this.gameId = ref.id;
     });
   }
