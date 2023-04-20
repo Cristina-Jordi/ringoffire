@@ -21,10 +21,12 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame(); // Erstellt ein neues Spiel
-    this.route.params.subscribe((params) => {
+    this.game.currentPlayer = 0;
+    this.route.params.subscribe((params) => {  // Wir holen die Parameter aus der URL
       console.log('Die ID ist:', params['id']);  // Loggt die ID des Docs aus
+      this.gameId = params['id'];
 
-      this.firestore.collection('games').doc<Game>(params['id']).valueChanges().subscribe((game: any) => {
+      this.firestore.collection('games').doc<Game>(this.gameId).valueChanges().subscribe((game: any) => {
         console.log('Game update', game);
         this.game = game ?? {} as Game;
         this.game.currentPlayer = game.currentPlayer;
@@ -37,31 +39,26 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.game = new Game();
-    this.firestore.collection('games').add(this.game.toJson()).then(ref => {
-      this.gameId = ref.id;
-    });
+    this.game.currentPlayer = 0;
   }
 
   takeCard() {
     if (!this.pickCardAnimation) {
       this.currentCard = this.game.stack.pop();
-      this.pickCardAnimation = true;
-
+      this.pickCardAnimation = true
       console.log('New card:', this.currentCard);
-      console.log('Game is', this.game);
+      console.log('Game is', this.game)
+      this.saveGame();  // Es wird gespeichert, dass eine Karte vom Stapel genommen wird
 
       this.game.currentPlayer++;
-      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length
       const currentPlayerName = this.game.players[this.game.currentPlayer];
-      console.log('Current player:', currentPlayerName);
-
+      console.log('Current player:', currentPlayerName)
       setTimeout(() => {
         if (this.currentCard !== undefined) {
           this.game.playedCards.push(this.currentCard);
         }
-        this.pickCardAnimation = false;
-
+        this.pickCardAnimation = false
         if (this.gameId !== undefined) {
           this.firestore.collection('games').doc(this.gameId).update({
             players: this.game.players,
@@ -70,16 +67,19 @@ export class GameComponent implements OnInit {
             currentPlayer: this.game.players[this.game.currentPlayer]
           });
         }
+        this.saveGame();  // Sobald eine Karte gepusht wird, diese auch wieder angezeigt wird
       }, 1000);
     }
   }
 
+  // Name, welchen wir in das Textfeld eingeben
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe(name => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.saveGame();
         if (this.gameId !== undefined) {
           this.firestore.collection('games').doc(this.gameId).update({
             players: this.game.players
@@ -87,5 +87,18 @@ export class GameComponent implements OnInit {
         }
       }
     });
+  }
+
+  saveGame() {
+    // this.firestore.collection('games').doc<Game>(this.gameId).update(this.game.toJson());
+    const gameData = {
+      currentPlayer: this.game.currentPlayer,
+      playedCards: this.game.playedCards,
+      players: this.game.players,
+      stack: this.game.stack,
+    };
+
+    const jsonData = JSON.stringify(gameData);
+    this.firestore.collection('games').doc<Game>(this.gameId).update(JSON.parse(jsonData));
   }
 }
