@@ -1,11 +1,15 @@
 export class Game {
+    public pickCardAnimation = false;  // Variable wird mit false initialisiertund bindet eine weitere css-Klasse ein.
+    public currentCard: string | undefined;
     public players: string[] = [];  // public, weil wir in anderen Dateien auch darauf zugreifen wollen
     public stack: string[] = [];   // ungespielte Karten
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
     public game: any;  // Deklaration der Eigenschaft game
 
+
     constructor() {
+        this.currentCard = "";
         const suits = ['hearts', 'ace', 'diamonds', 'clubs'];
         for (let i = 1; i <= 13; i++) {
             suits.forEach(suit => {
@@ -22,13 +26,15 @@ export class Game {
             [this.stack[i], this.stack[j]] = [this.stack[j], this.stack[i]];
         }
     }
-
+    // Variablen, welche dem JSON hinzugefügt werden
     public toJson() {
         return {
             players: this.players,
             stack: this.stack,
             playedCards: this.playedCards,
-            currentPlayer: this.currentPlayer
+            currentPlayer: this.currentPlayer,
+            pickCardAnimation: this.pickCardAnimation,
+            currentCard: this.currentCard
 
         };
     }

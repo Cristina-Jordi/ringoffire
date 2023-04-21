@@ -12,16 +12,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;  // Variable wird mit false initialisiertund bindet eine weitere css-Klasse ein.
-  currentCard: string | undefined;
   game!: Game;
   gameId: string | undefined;
 
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { this.currentCard = ""; }
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.newGame(); // Erstellt ein neues Spiel
-    // this.game.currentPlayer = 0;
     this.route.params.subscribe((params) => {  // Wir holen die Parameter aus der URL
       console.log('Die ID ist:', params['id']);  // Loggt die ID des Docs aus
       this.gameId = params['id'];
@@ -30,10 +28,11 @@ export class GameComponent implements OnInit {
         console.log('Game update', game);
         this.game = game ?? {} as Game;
         this.game.currentPlayer = game.currentPlayer;
-      
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
         this.game.stack = game.stack;
+        this.game.pickCardAnimation = game.pickCardAnimation;
+        this.game.currentCard = game.currentCard;
       });
     });
   }
@@ -43,27 +42,28 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
-      this.pickCardAnimation = true
-      console.log('New card:', this.currentCard);
+    if (!this.game.pickCardAnimation) {
+      this.game.pickCardAnimation = true
+      this.game.currentCard = this.game.stack.pop();
+      console.log('New card:', this.game.currentCard);
       console.log('Game is', this.game)
 
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length
       const currentPlayerName = this.game.players[this.game.currentPlayer];
       console.log('Current player:', currentPlayerName)
+
       setTimeout(() => {
-        if (this.currentCard !== undefined) {
-          this.game.playedCards.push(this.currentCard);
+        if (this.game.currentCard !== undefined) {
+          this.game.playedCards.push(this.game.currentCard);
         }
-        this.pickCardAnimation = false
+        this.game.pickCardAnimation = false
         if (this.gameId !== undefined) {
           this.firestore.collection('games').doc(this.gameId).update({
             players: this.game.players,
             stack: this.game.stack,
             playedCards: this.game.playedCards,
-            currentPlayerName: this.game.players[this.game.currentPlayer]
+            currentPlayerName: this.game.players[this.game.currentPlayer]  // Speichert den currentPlayer mit Namen in die DB
           });
         }
         this.saveGame();  // Sobald eine Karte gepusht wird und vom Stapel genommen wird, diese auch wieder angezeigt wird
@@ -89,12 +89,13 @@ export class GameComponent implements OnInit {
   }
 
   saveGame() {
-    // this.firestore.collection('games').doc<Game>(this.gameId).update(this.game.toJson());
+    // this.firestore.collection('games').doc<Game>(this.gameId).update(this.game.toJson());  --> fürht zu undefined
     const gameData = {
       currentPlayer: this.game.currentPlayer,
       playedCards: this.game.playedCards,
       players: this.game.players,
       stack: this.game.stack,
+      currentCard: this.game.currentCard
     };
 
     const jsonData = JSON.stringify(gameData);

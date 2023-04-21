@@ -11,9 +11,6 @@ import { Game } from 'src/models/game';
 export class StartScreenComponent {
   gameId: string | undefined;
   constructor(private firestore: AngularFirestore, private router: Router) { }
-  // ngOnInit(): void {
-
-  // }
 
   newGame() {
     // Start Game
