@@ -21,7 +21,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame(); // Erstellt ein neues Spiel
-    this.game.currentPlayer = 0;
+    // this.game.currentPlayer = 0;
     this.route.params.subscribe((params) => {  // Wir holen die Parameter aus der URL
       console.log('Die ID ist:', params['id']);  // Loggt die ID des Docs aus
       this.gameId = params['id'];
@@ -30,6 +30,7 @@ export class GameComponent implements OnInit {
         console.log('Game update', game);
         this.game = game ?? {} as Game;
         this.game.currentPlayer = game.currentPlayer;
+      
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
         this.game.stack = game.stack;
@@ -39,7 +40,6 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.game = new Game();
-    this.game.currentPlayer = 0;
   }
 
   takeCard() {
@@ -48,7 +48,6 @@ export class GameComponent implements OnInit {
       this.pickCardAnimation = true
       console.log('New card:', this.currentCard);
       console.log('Game is', this.game)
-      this.saveGame();  // Es wird gespeichert, dass eine Karte vom Stapel genommen wird
 
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length
@@ -64,10 +63,10 @@ export class GameComponent implements OnInit {
             players: this.game.players,
             stack: this.game.stack,
             playedCards: this.game.playedCards,
-            currentPlayer: this.game.players[this.game.currentPlayer]
+            currentPlayerName: this.game.players[this.game.currentPlayer]
           });
         }
-        this.saveGame();  // Sobald eine Karte gepusht wird, diese auch wieder angezeigt wird
+        this.saveGame();  // Sobald eine Karte gepusht wird und vom Stapel genommen wird, diese auch wieder angezeigt wird
       }, 1000);
     }
   }
