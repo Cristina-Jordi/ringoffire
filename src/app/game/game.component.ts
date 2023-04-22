@@ -43,6 +43,12 @@ export class GameComponent implements OnInit {
 
   takeCard() {
     if (!this.game.pickCardAnimation) {
+
+      if (this.game.players.length === 0) { // Überprüfung, ob es Spieler gibt
+        alert("Zuerst musst du mindestens einen Spieler erstellen bevor du eine Karte ziehen kannst! Drücke dazu auf das Plus-Icon.");
+        return;
+      }
+
       this.game.pickCardAnimation = true
       this.game.currentCard = this.game.stack.pop();
       console.log('New card:', this.game.currentCard);
