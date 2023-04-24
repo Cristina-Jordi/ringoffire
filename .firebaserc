@@ -1,13 +1,4 @@
 {
-  "targets": {
-    "ring-of-fire-cristina-jordi": {
-      "hosting": {
-        "ringoffire": [
-          "ring-of-fire-cristina-jordi"
-        ]
-      }
-    }
-  },
   "projects": {
     "default": "ring-of-fire-cristina-jordi"
   }
