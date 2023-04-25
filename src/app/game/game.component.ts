@@ -44,8 +44,11 @@ export class GameComponent implements OnInit {
   takeCard() {
     if (!this.game.pickCardAnimation) {
 
-      if (this.game.players.length === 0) { // Überprüfung, ob es Spieler gibt
-        alert("Zuerst musst du mindestens einen Spieler erstellen bevor du eine Karte ziehen kannst! Drücke dazu auf das Plus-Icon.");
+      if (this.noPlayerAlert()) {
+        return;
+      }
+
+      if (this.stackEmptyAlert()) {
         return;
       }
 
@@ -75,6 +78,22 @@ export class GameComponent implements OnInit {
         this.saveGame();  // Sobald eine Karte gepusht wird und vom Stapel genommen wird, diese auch wieder angezeigt wird
       }, 1000);
     }
+  }
+
+  noPlayerAlert(): boolean {
+    if (this.game.players.length === 0) {
+      alert("Zuerst musst du mindestens einen Spieler erstellen bevor du eine Karte ziehen kannst! Drücke dazu auf das Plus-Icon.");
+      return true;
+    }
+    return false;
+  }
+
+  stackEmptyAlert(): boolean {
+    if (this.game.stack.length === 0) { // Überprüfung, ob der Stapel leer ist
+      alert("Das Spiel ist zu Ende. Ein neues Spiel muss gestartet werden, um weiterzuspielen!");
+      return true;
+    }
+    return false;
   }
 
   // Name, welchen wir in das Textfeld eingeben
