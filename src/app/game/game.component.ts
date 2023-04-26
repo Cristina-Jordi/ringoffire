@@ -90,7 +90,10 @@ export class GameComponent implements OnInit {
 
   stackEmptyAlert(): boolean {
     if (this.game.stack.length === 0) { // Überprüfung, ob der Stapel leer ist
-      alert("Das Spiel ist zu Ende. Ein neues Spiel muss gestartet werden, um weiterzuspielen!");
+      const confirmed = confirm("Das Spiel ist zu Ende. Ein neues Spiel muss gestartet werden, um weiterzuspielen!");
+      if (confirmed) {
+        window.location.href = "index.html"; // Weiterleitung zur Startseite
+      }
       return true;
     }
     return false;
