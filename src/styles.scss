@@ -20,6 +20,6 @@ html {
 
 @media (min-width: 720px) {
     .hide-desktop {
-        display: none;
+        display: none !important;
     }
 }

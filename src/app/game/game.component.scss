@@ -16,7 +16,7 @@
         position: relative;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
 
         img {
             position: absolute;
@@ -35,15 +35,22 @@
 
     &:hover {
         transform: scale(1.1) translateY(-10px);
+
+        @media (max-width:720px) {
+            transform: scale(1.1) translateY(-10px);
+        }
     }
 }
 
 .played-card {
     right: 25px;
     transform: scale(1) translateX(220px) translateY(-240px) rotate(-10deg);
+}
 
-    @media (max-width:720px) {
-        transform: scale(1) translateX(120px) translateY(-180px) rotate(-10deg);
+@media (max-width:720px) {
+    .played-card {
+        right: 15px;
+        transform: scale(0.9) translateX(140px) translateY(-180px) rotate(-20deg);
     }
 }
 
@@ -52,9 +59,8 @@
     transform: scale(1) translateX(220px) translateY(-240px) rotate(-10deg);
 
     @media (max-width:720px) {
-        transform: scale(1) translateX(120px) translateY(-180px) rotate(-10deg);
+        transform: scale(1) translateX(140px) translateY(-240px) rotate(-10deg);
     }
-
 }
 
 @keyframes pick-card-animation {
@@ -71,15 +77,39 @@
     }
 
     100% {
-        transform: scale(1) translateX(220px) translateY(-240px) rotate(-10deg);
+        transform: scale(1) translateX(220px) translateY(-180px) rotate(-10deg);
     }
+}
 
+@media (max-width:720px) {
+    @keyframes pick-card-animation {
+        0% {
+            transform: scale(0.5);
+        }
+
+        40% {
+            transform: scale(0.7);
+        }
+
+        60% {
+            transform: scale(0.8);
+        }
+
+        100% {
+            transform: scale(0.9) translateX(140px) translateY(-100px) rotate(-10deg);
+        }
+    }
 }
 
 .player-position {
     position: absolute;
     right: 0;
     z-index: 1;
+    margin-top: 10px;
+
+    app-player {
+        margin-right: 15px;
+    }
 }
 
 .scroll-container {
@@ -90,7 +120,7 @@
     right: 0;
     overflow-x: auto;
     overflow-y: hidden;
-    padding-bottom: 8px;
+    padding-right: 10px;
 
     app-player-mobile {
         margin-left: 10px;
