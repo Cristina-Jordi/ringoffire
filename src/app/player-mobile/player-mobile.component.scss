@@ -9,7 +9,7 @@
     background-color: burlywood;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    
+
 
     span {
         font-size: 18px;
@@ -29,5 +29,9 @@
 .player-active {
     color: rgb(4, 4, 4);
     background-color: orange !important;
+    cursor: pointer;
 
+    &:hover {
+        filter: brightness(1.1);
+    }
 }

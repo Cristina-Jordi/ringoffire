@@ -21,7 +21,11 @@
 }
 
 .player-active {
-    color:black;
+    color: black;
     background-color: orange !important;
+    cursor: pointer;
 
+    &:hover {
+        filter: brightness(1.1);
+    }
 }

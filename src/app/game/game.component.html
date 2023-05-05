@@ -1,11 +1,11 @@
 <div class="player-position hide-mobile">
-<app-player *ngFor="let player of game.players; let i = index;" [playerActive]="i == game.currentPlayer"
-[name]="player"></app-player>
+    <app-player (click)="editPlayerProfile(i)" *ngFor="let player of game.players; let i = index;"
+        [playerActive]="i == game.currentPlayer" [image]="game.player_avatar[i]" [name]="player"></app-player>
 </div>
 
 <div class="scroll-container hide-desktop">
-    <app-player-mobile *ngFor="let player of game.players; let i = index;" [playerActive]="i == game.currentPlayer"
-    [name]="player"></app-player-mobile>
+    <app-player-mobile (click)="editPlayerProfile(i)" *ngFor="let player of game.players; let i = index;"
+        [playerActive]="i == game.currentPlayer" [image]="game.player_avatar[i]" [name]="player"></app-player-mobile>
 </div>
 
 <div class="field">

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class GameComponent implements OnInit {
         this.game.currentPlayer = game.currentPlayer;
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
+        this.game.player_avatar = game.player_avatar;
         this.game.stack = game.stack;
         this.game.pickCardAnimation = game.pickCardAnimation;
         this.game.currentCard = game.currentCard;
@@ -80,6 +82,15 @@ export class GameComponent implements OnInit {
     }
   }
 
+  editPlayerProfile(playerId: number) {
+    console.log('Edit player', playerId);
+
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe(change => {
+      console.log('Received change', change);
+    });
+  }
+
   noPlayerAlert(): boolean {
     if (this.game.players.length === 0) {
       alert("Zuerst musst du mindestens einen Spieler erstellen bevor du eine Karte ziehen kannst! Drücke dazu auf das Plus-Icon.");
@@ -99,13 +110,14 @@ export class GameComponent implements OnInit {
     return false;
   }
 
-  // Name, welchen wir in das Textfeld eingeben
+  // Dialog-Fenster: Name, welchen wir in das Textfeld eingeben
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe(name => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.game.player_avatar.push('avatar-man.png');
         this.saveGame();
         if (this.gameId !== undefined) {
           this.firestore.collection('games').doc(this.gameId).update({
@@ -122,6 +134,7 @@ export class GameComponent implements OnInit {
       currentPlayer: this.game.currentPlayer,
       playedCards: this.game.playedCards,
       players: this.game.players,
+      // player_avatar: this.game.player_avatar,
       stack: this.game.stack,
       currentCard: this.game.currentCard
     };

@@ -2,6 +2,7 @@ export class Game {
     public pickCardAnimation = false;  // Variable wird mit false initialisiertund bindet eine weitere css-Klasse ein.
     public currentCard: string | undefined;
     public players: string[] = [];  // public, weil wir in anderen Dateien auch darauf zugreifen wollen
+    public player_avatar: string[] = [];  // Avatar-Bild
     public stack: string[] = [];   // ungespielte Karten
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
@@ -30,12 +31,12 @@ export class Game {
     public toJson() {
         return {
             players: this.players,
+            player_avatar: this.player_avatar,
             stack: this.stack,
             playedCards: this.playedCards,
             currentPlayer: this.currentPlayer,
             pickCardAnimation: this.pickCardAnimation,
             currentCard: this.currentCard
-
         };
     }
 

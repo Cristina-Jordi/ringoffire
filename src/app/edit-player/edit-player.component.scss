@@ -1,0 +1,15 @@
+.profile-pic {
+    width: 80px;
+    object-fit: contain;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 5px;
+
+    &:hover {
+        filter: brightness(1.1); // Avatare werden heller beim darüber hovern
+    }
+
+    @media (max-width:720px) {
+        height: 50px !important;
+    }
+}
