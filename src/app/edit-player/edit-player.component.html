@@ -1,2 +1,7 @@
-<!-- Bei Klick wird der Avatar angezeigt -->
+<h1 mat-dialog-title>Choose your Avatar!</h1>
 <img class="profile-pic" [mat-dialog-close]="picture" *ngFor="let picture of allProfilePics" src="../../assets/img/avatars/{{picture}}">
+
+<div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="'DELETE'" cdkFocusInitial>Delete Player</button>
+</div>

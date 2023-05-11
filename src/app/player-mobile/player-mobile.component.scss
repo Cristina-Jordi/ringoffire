@@ -12,7 +12,10 @@
 
 
     span {
-        font-size: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 90%;
+        font-size: 16px;
         color: whitesmoke;
         text-align: center;
         margin-bottom: 7px;

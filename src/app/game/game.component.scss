@@ -104,8 +104,7 @@
 .player-position {
     position: absolute;
     right: 0;
-    z-index: 1;
-    margin-top: 10px;
+    margin-top: 15px;
 
     app-player {
         margin-right: 15px;
@@ -131,6 +130,14 @@
     position: absolute;
     right: 32px;
     bottom: 32px;
+}
+
+@media (max-width: 508px) {
+    .btn-add {
+        position: absolute;
+        right: 32px;
+        bottom: 113px;
+    }
 }
 
 .game-rules {
