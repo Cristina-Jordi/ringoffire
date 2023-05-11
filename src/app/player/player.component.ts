@@ -5,14 +5,14 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss']
 })
-export class PlayerComponent implements OnInit{
-  @Input() name;
-  @Input() image = 'avatar-man.png';
+export class PlayerComponent implements OnInit {
+  @Input() name: string;
+  @Input() image: string = 'avatar-man.png';
   @Input() playerActive: boolean = false;
 
-  constructor(){
-    this.name='';
-    this.image='';
+  constructor() {
+    this.name = '';
+    this.image = '';
   }
 
   ngOnInit(): void {

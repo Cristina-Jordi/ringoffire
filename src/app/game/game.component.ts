@@ -134,7 +134,7 @@ export class GameComponent implements OnInit {
       currentPlayer: this.game.currentPlayer,
       playedCards: this.game.playedCards,
       players: this.game.players,
-      // player_avatar: this.game.player_avatar,
+      player_avatar: this.game.player_avatar,
       stack: this.game.stack,
       currentCard: this.game.currentCard
     };
